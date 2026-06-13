@@ -20,18 +20,24 @@
   html,body{margin:0}
   body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .wrap{max-width:760px;margin:0 auto;padding:20px 18px 64px}
-  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
   .brand{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:-.01em}
   .brand small{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:2px}
   .pdf-btn{font-family:var(--body);font-weight:500;font-size:14px;color:var(--surface);background:var(--ink);border:none;border-radius:9px;padding:9px 15px;cursor:pointer}
   .pdf-btn:hover{background:#222831}
+  .calc-btn{display:block;width:100%;font-family:var(--body);font-weight:500;font-size:15px;color:#fff;background:var(--ink);border:none;border-radius:10px;padding:12px;cursor:pointer;margin:0 0 18px}
+  .calc-btn:hover{background:#222831}
+  #who{font-family:var(--disp);font-weight:500;font-size:15px;color:var(--accent);margin:0 0 18px;display:none}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;margin-bottom:18px}
   .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
   .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
   .field-row{display:flex;gap:10px;flex-wrap:wrap}
   .field{flex:1;min-width:64px}
+  .field.full{flex:1 1 100%;margin-bottom:16px}
   .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
   .field input{width:100%;font-family:var(--mono);font-size:16px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .field.full input{font-family:var(--body)}
+  .field input::placeholder{color:#aab1bd}
   .field input:focus{outline:2px solid var(--accent);outline-offset:-1px;background:var(--surface)}
   .hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
   .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
@@ -49,7 +55,6 @@
   .num{font-family:var(--mono);font-weight:500;font-size:15px;text-align:right;white-space:nowrap}
   .pin{width:60px;font-family:var(--mono);font-size:14px;text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:6px 4px;color:var(--ink)}
   .pin:focus{outline:2px solid var(--accent);outline-offset:-1px}
-  .rec{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
   .note{font-size:12.5px;color:var(--muted);margin:8px 2px 0;line-height:1.5}
   .zrow{display:flex;align-items:flex-start;gap:12px;padding:13px 4px;border-bottom:1px solid var(--line)}
   .zrow:last-child{border-bottom:none}
@@ -65,7 +70,7 @@
   @media print{
     body{background:#fff}
     .wrap{max-width:100%;padding:0}
-    .pdf-btn,.hint{display:none!important}
+    .pdf-btn,.calc-btn,.hint{display:none!important}
     .card,.stat{break-inside:avoid}
     .field input,.pin{border:none;background:transparent;padding:2px 0;font-size:14px}
     .print-only{display:block}
@@ -80,43 +85,50 @@
     <div class="brand">Áreas funcionales<small>Calculadora VAM</small></div>
     <button class="pdf-btn" id="pdf" type="button">Descargar PDF</button>
   </div>
+  <p id="who"></p>
 
   <div class="card hint">
     <p class="lbl">Datos de entrada</p>
+    <div class="field full">
+      <label>Nombre del atleta</label>
+      <input type="text" id="nombre" placeholder="Tu nombre"/>
+    </div>
     <div class="grid2">
       <div>
         <div class="field-row">
-          <div class="field"><label>Test · distancia (m)</label><input type="number" id="dist" value="2400" step="100"/></div>
-          <div class="field" style="max-width:80px"><label>Min</label><input type="number" id="min" value="8" min="0"/></div>
-          <div class="field" style="max-width:80px"><label>Seg</label><input type="number" id="sec" value="2" min="0" max="59"/></div>
+          <div class="field"><label>Test · distancia (m)</label><input type="number" id="dist" placeholder="ej. 2400" step="100"/></div>
+          <div class="field" style="max-width:80px"><label>Min</label><input type="number" id="min" placeholder="min" min="0"/></div>
+          <div class="field" style="max-width:80px"><label>Seg</label><input type="number" id="sec" placeholder="seg" min="0" max="59"/></div>
         </div>
       </div>
       <div>
         <div class="field-row">
-          <div class="field"><label>FC máx (lpm)</label><input type="number" id="hrmax" value="197" min="120" max="230"/></div>
-          <div class="field"><label>FC reposo (lpm)</label><input type="number" id="hrrest" value="51" min="30" max="100"/></div>
+          <div class="field"><label>FC máx (lpm)</label><input type="number" id="hrmax" placeholder="ej. 195" min="120" max="230"/></div>
+          <div class="field"><label>FC reposo (lpm)</label><input type="number" id="hrrest" placeholder="ej. 50" min="30" max="100"/></div>
         </div>
       </div>
     </div>
-    <p class="note" id="echo"></p>
+    <p class="note" id="echo">Completá tu test de VAM y tu FC para ver los resultados.</p>
   </div>
 
+  <button class="calc-btn" id="calc" type="button">Calcular VAM</button>
+
   <div class="hero">
-    <div class="stat"><div class="k">VAM · 100%</div><div class="v" id="h-vam">3:21<span> /km</span></div></div>
-    <div class="stat"><div class="k">Velocidad VAM</div><div class="v" id="h-spd">17.9<span> km/h</span></div></div>
-    <div class="stat"><div class="k">10k estimado</div><div class="v" id="h-10k" style="font-size:24px">37:11<span> · 3:43/km</span></div></div>
+    <div class="stat"><div class="k">VAM · 100%</div><div class="v" id="h-vam">—</div></div>
+    <div class="stat"><div class="k">Velocidad VAM</div><div class="v" id="h-spd">—</div></div>
+    <div class="stat"><div class="k">10k estimado</div><div class="v" id="h-10k" style="font-size:24px">—</div></div>
   </div>
 
   <h2>Áreas funcionales · ritmo</h2>
   <table class="tbl">
     <thead><tr><th style="width:46%">Área</th><th style="width:22%">% VAM</th><th style="width:32%;text-align:right">Ritmo /km</th></tr></thead>
     <tbody>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-vam)"></span>VAM</span></td><td class="pct">100</td><td class="num" id="z-vam">3:21</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-vo2)"></span>VO₂</span></td><td class="pct">86–92</td><td class="num" id="z-vo2">3:38 – 3:54</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-um)"></span>Umbral</span></td><td class="pct">85</td><td class="num" id="z-um">3:56</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-m)"></span>M / desarrollo</span></td><td class="pct">80</td><td class="num" id="z-m">4:11</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-sup)"></span>SUP</span></td><td class="pct">75–85</td><td class="num" id="z-sup">3:56 – 4:28</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-sub)"></span>SUB</span></td><td class="pct">61–74</td><td class="num" id="z-sub">4:31 – 5:29</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-vam)"></span>VAM</span></td><td class="pct">100</td><td class="num" id="z-vam">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-vo2)"></span>VO₂</span></td><td class="pct">86–92</td><td class="num" id="z-vo2">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-um)"></span>Umbral</span></td><td class="pct">85</td><td class="num" id="z-um">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-m)"></span>M / desarrollo</span></td><td class="pct">80</td><td class="num" id="z-m">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-sup)"></span>SUP</span></td><td class="pct">75–85</td><td class="num" id="z-sup">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-sub)"></span>SUB</span></td><td class="pct">61–74</td><td class="num" id="z-sub">—</td></tr>
     </tbody>
   </table>
 
@@ -124,12 +136,12 @@
   <table class="tbl">
     <thead><tr><th style="width:46%">Área</th><th style="width:22%">% FC res.</th><th style="width:32%;text-align:right">Pulso (lpm)</th></tr></thead>
     <tbody>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-vam)"></span>VAM</span></td><td class="pct">96–100</td><td class="num" id="f-vam">191 – 197</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-vo2)"></span>VO₂</span></td><td class="pct">92–96</td><td class="num" id="f-vo2">185 – 191</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-um)"></span>Umbral</span></td><td class="pct">88–92</td><td class="num" id="f-um">179 – 185</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-m)"></span>M / desarrollo</span></td><td class="pct">83–87</td><td class="num" id="f-m">172 – 178</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-sup)"></span>SUP</span></td><td class="pct">80–87</td><td class="num" id="f-sup">168 – 178</td></tr>
-      <tr><td><span class="area"><span class="dot" style="background:var(--i-sub)"></span>SUB</span></td><td class="pct">70–80</td><td class="num" id="f-sub">153 – 168</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-vam)"></span>VAM</span></td><td class="pct">96–100</td><td class="num" id="f-vam">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-vo2)"></span>VO₂</span></td><td class="pct">92–96</td><td class="num" id="f-vo2">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-um)"></span>Umbral</span></td><td class="pct">88–92</td><td class="num" id="f-um">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-m)"></span>M / desarrollo</span></td><td class="pct">83–87</td><td class="num" id="f-m">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-sup)"></span>SUP</span></td><td class="pct">80–87</td><td class="num" id="f-sup">—</td></tr>
+      <tr><td><span class="area"><span class="dot" style="background:var(--i-sub)"></span>SUB</span></td><td class="pct">70–80</td><td class="num" id="f-sub">—</td></tr>
     </tbody>
   </table>
   <p class="note">El pulso va detrás del esfuerzo y se corre con calor y fatiga, así que tomá la FC como chequeo y el ritmo como guía principal en los trabajos.</p>
@@ -139,44 +151,44 @@
     <div class="zrow">
       <span class="zbar" style="background:var(--i-sub)"></span>
       <div class="zmain"><div class="zname">Zona 1 · Recuperación</div><div class="zwhy">Regeneración, entrada en calor y vuelta a la calma. Suma circulación sin agregar fatiga.</div></div>
-      <div class="zbpm" id="zone1">124 – 139<small>50–60% reserva</small></div>
+      <div class="zbpm" id="zone1">—</div>
     </div>
     <div class="zrow">
       <span class="zbar" style="background:var(--i-sup)"></span>
       <div class="zmain"><div class="zname">Zona 2 · Base aeróbica</div><div class="zwhy">El rodaje fácil. Construye la base aeróbica, mejora el uso de grasas y la economía; acá va la mayor parte del volumen.</div></div>
-      <div class="zbpm" id="zone2">139 – 153<small>60–70% reserva</small></div>
+      <div class="zbpm" id="zone2">—</div>
     </div>
     <div class="zrow">
       <span class="zbar" style="background:var(--i-m)"></span>
       <div class="zmain"><div class="zname">Zona 3 · Aeróbico medio</div><div class="zwhy">Resistencia y ritmos de fondo o maratón. Acostumbra al cuerpo a sostener esfuerzos prolongados.</div></div>
-      <div class="zbpm" id="zone3">153 – 168<small>70–80% reserva</small></div>
+      <div class="zbpm" id="zone3">—</div>
     </div>
     <div class="zrow">
       <span class="zbar" style="background:var(--i-vo2)"></span>
       <div class="zmain"><div class="zname">Zona 4 · Umbral</div><div class="zwhy">Empuja el umbral de lactato y eleva el ritmo que podés sostener mucho tiempo (tu ritmo de media).</div></div>
-      <div class="zbpm" id="zone4">168 – 182<small>80–90% reserva</small></div>
+      <div class="zbpm" id="zone4">—</div>
     </div>
     <div class="zrow">
       <span class="zbar" style="background:var(--i-vam)"></span>
       <div class="zmain"><div class="zname">Zona 5 · VO₂máx</div><div class="zwhy">Potencia aeróbica máxima. Series cortas e intensas que suben el techo (VO₂máx) y la velocidad.</div></div>
-      <div class="zbpm" id="zone5">182 – 197<small>90–100% reserva</small></div>
+      <div class="zbpm" id="zone5">—</div>
     </div>
   </div>
   <p class="note">Calculadas sobre tu FC de reserva (Karvonen). Si querés que coincidan con las del reloj, configurá las zonas de Garmin como «% de FC de reserva».</p>
 
   <h2>Pasadas</h2>
   <table class="tbl">
-    <thead><tr><th style="width:24%">Dist.</th><th style="width:30%">% VAM</th><th style="width:26%;text-align:right">Tiempo</th><th style="width:20%;text-align:right">Recup.</th></tr></thead>
+    <thead><tr><th style="width:30%">Dist.</th><th style="width:38%">% VAM</th><th style="width:32%;text-align:right">Tiempo</th></tr></thead>
     <tbody>
-      <tr><td>2000 m</td><td><input class="pin" id="p-2000" type="number" value="90"/></td><td class="num" id="t-2000">7:26</td><td class="rec">—</td></tr>
-      <tr><td>1600 m</td><td><input class="pin" id="p-1600" type="number" value="92"/></td><td class="num" id="t-1600">5:49</td><td class="rec">—</td></tr>
-      <tr><td>1200 m</td><td><input class="pin" id="p-1200" type="number" value="94"/></td><td class="num" id="t-1200">4:16</td><td class="rec">—</td></tr>
-      <tr><td>1000 m</td><td style="display:flex;align-items:center;gap:6px"><input class="pin" id="p-1000a" type="number" value="92" style="width:48px"/><span class="pct">–</span><input class="pin" id="p-1000b" type="number" value="97" style="width:48px"/></td><td class="num" id="t-1000">3:38 – 3:27</td><td class="rec">—</td></tr>
-      <tr><td>400 m</td><td><input class="pin" id="p-400" type="number" value="100"/></td><td class="num" id="t-400">1:20</td><td class="rec">R 76"</td></tr>
-      <tr><td>200 m</td><td><input class="pin" id="p-200" type="number" value="105"/></td><td class="num" id="t-200">38"</td><td class="rec">FR 34"</td></tr>
+      <tr><td>2000 m</td><td><input class="pin" id="p-2000" type="number" value="90"/></td><td class="num" id="t-2000">—</td></tr>
+      <tr><td>1600 m</td><td><input class="pin" id="p-1600" type="number" value="92"/></td><td class="num" id="t-1600">—</td></tr>
+      <tr><td>1200 m</td><td><input class="pin" id="p-1200" type="number" value="94"/></td><td class="num" id="t-1200">—</td></tr>
+      <tr><td>1000 m</td><td style="display:flex;align-items:center;gap:6px"><input class="pin" id="p-1000a" type="number" value="92" style="width:48px"/><span class="pct">–</span><input class="pin" id="p-1000b" type="number" value="97" style="width:48px"/></td><td class="num" id="t-1000">—</td></tr>
+      <tr><td>400 m</td><td><input class="pin" id="p-400" type="number" value="100"/></td><td class="num" id="t-400">—</td></tr>
+      <tr><td>200 m</td><td><input class="pin" id="p-200" type="number" value="105"/></td><td class="num" id="t-200">—</td></tr>
     </tbody>
   </table>
-  <p class="note">Los % de las pasadas son editables. El de 1000 m (92–97%) es el que viene fijado; el resto son valores de referencia para ajustar al criterio de tu entrenador.</p>
+  <p class="note">Los % de las pasadas son editables; ajustalos al criterio de tu entrenador.</p>
 
   <footer>
     Método: el ritmo de cada área es el ritmo VAM dividido por el porcentaje. Las zonas de FC usan Karvonen: <b>FC = reposo + %·(máx − reposo)</b>. El 10k es una estimación al 90% de la VAM. <span class="print-only" id="stamp"></span>
@@ -187,56 +199,71 @@
 <script>
 (function(){
   var $=function(id){return document.getElementById(id);};
-  function num(id,def){var v=parseFloat($(id).value);return isNaN(v)?def:v;}
+  function val(id){var v=parseFloat($(id).value);return isNaN(v)?NaN:v;}
   function fmtPace(s){s=Math.round(s);var m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0');}
   function fmtTime(s){s=Math.round(s);if(s<60)return s+'"';var m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0');}
+  function fmtClock(s){s=Math.round(s);var m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0');}
+  var DASH='—';
+
   function render(){
-    var dist=num('dist',2400), mn=num('min',8), sc=num('sec',2);
-    var hrmax=num('hrmax',197), hrrest=num('hrrest',51);
-    if(dist<=0) return;
-    var vam=(mn*60+sc)/(dist/1000);
-    var paceAt=function(p){return vam/(p/100);};
-    var bpm=function(p){return Math.round(hrrest + (p/100)*(hrmax-hrrest));};
-    var spd=3600/vam;
+    var name=$('nombre').value.trim();
+    var who=$('who');
+    if(name){who.textContent=name;who.style.display='block';}else{who.textContent='';who.style.display='none';}
 
-    $('h-vam').innerHTML=fmtPace(vam)+'<span> /km</span>';
-    $('h-spd').innerHTML=spd.toFixed(1)+'<span> km/h</span>';
-    var p10=paceAt(90);
-    $('h-10k').innerHTML=fmtPace(p10*10)+'<span> · '+fmtPace(p10)+'/km</span>';
-    $('echo').textContent='Test '+dist+' m en '+mn+':'+String(Math.round(sc)).padStart(2,'0')+'  ·  FC máx '+Math.round(hrmax)+'  ·  FC reposo '+Math.round(hrrest)+'  ·  reserva '+Math.round(hrmax-hrrest)+' lpm';
+    var dist=val('dist'), mn=val('min'), sc=val('sec');
+    var hrmax=val('hrmax'), hrrest=val('hrrest');
+    var timeSec=(isNaN(mn)?0:mn)*60+(isNaN(sc)?0:sc);
+    var vamOk=!isNaN(dist)&&dist>0&&timeSec>0;
+    var hrOk=!isNaN(hrmax)&&!isNaN(hrrest)&&hrmax>hrrest&&hrrest>0;
 
-    $('z-vam').textContent=fmtPace(paceAt(100));
-    $('z-vo2').textContent=fmtPace(paceAt(92))+' – '+fmtPace(paceAt(86));
-    $('z-um').textContent=fmtPace(paceAt(85));
-    $('z-m').textContent=fmtPace(paceAt(80));
-    $('z-sup').textContent=fmtPace(paceAt(85))+' – '+fmtPace(paceAt(75));
-    $('z-sub').textContent=fmtPace(paceAt(74))+' – '+fmtPace(paceAt(61));
+    if(vamOk){
+      var vam=timeSec/(dist/1000);
+      var paceAt=function(p){return vam/(p/100);};
+      var spd=3600/vam;
+      var p10=paceAt(90);
+      $('h-vam').innerHTML=fmtPace(vam)+'<span> /km</span>';
+      $('h-spd').innerHTML=spd.toFixed(1)+'<span> km/h</span>';
+      $('h-10k').innerHTML=fmtPace(p10*10)+'<span> · '+fmtPace(p10)+'/km</span>';
+      $('z-vam').textContent=fmtPace(paceAt(100));
+      $('z-vo2').textContent=fmtPace(paceAt(92))+' – '+fmtPace(paceAt(86));
+      $('z-um').textContent=fmtPace(paceAt(85));
+      $('z-m').textContent=fmtPace(paceAt(80));
+      $('z-sup').textContent=fmtPace(paceAt(85))+' – '+fmtPace(paceAt(75));
+      $('z-sub').textContent=fmtPace(paceAt(74))+' – '+fmtPace(paceAt(61));
+      var rep=function(tid,pid,d){var p=val(pid);$(tid).textContent=isNaN(p)?DASH:fmtTime(paceAt(p)*(d/1000));};
+      rep('t-2000','p-2000',2000);rep('t-1600','p-1600',1600);rep('t-1200','p-1200',1200);
+      rep('t-400','p-400',400);rep('t-200','p-200',200);
+      var a=val('p-1000a'),b=val('p-1000b');
+      $('t-1000').textContent=(isNaN(a)||isNaN(b))?DASH:fmtTime(paceAt(a))+' – '+fmtTime(paceAt(b));
+    }else{
+      ['h-vam','h-spd','h-10k','z-vam','z-vo2','z-um','z-m','z-sup','z-sub','t-2000','t-1600','t-1200','t-1000','t-400','t-200'].forEach(function(id){$(id).textContent=DASH;});
+    }
 
-    $('f-vam').textContent=bpm(96)+' – '+bpm(100);
-    $('f-vo2').textContent=bpm(92)+' – '+bpm(96);
-    $('f-um').textContent=bpm(88)+' – '+bpm(92);
-    $('f-m').textContent=bpm(83)+' – '+bpm(87);
-    $('f-sup').textContent=bpm(80)+' – '+bpm(87);
-    $('f-sub').textContent=bpm(70)+' – '+bpm(80);
+    if(hrOk){
+      var bpm=function(p){return Math.round(hrrest+(p/100)*(hrmax-hrrest));};
+      $('f-vam').textContent=bpm(96)+' – '+bpm(100);
+      $('f-vo2').textContent=bpm(92)+' – '+bpm(96);
+      $('f-um').textContent=bpm(88)+' – '+bpm(92);
+      $('f-m').textContent=bpm(83)+' – '+bpm(87);
+      $('f-sup').textContent=bpm(80)+' – '+bpm(87);
+      $('f-sub').textContent=bpm(70)+' – '+bpm(80);
+      var zr=function(id,lo,hi){$(id).innerHTML=bpm(lo)+' – '+bpm(hi)+'<small>'+lo+'–'+hi+'% reserva</small>';};
+      zr('zone1',50,60);zr('zone2',60,70);zr('zone3',70,80);zr('zone4',80,90);zr('zone5',90,100);
+    }else{
+      ['f-vam','f-vo2','f-um','f-m','f-sup','f-sub','zone1','zone2','zone3','zone4','zone5'].forEach(function(id){$(id).textContent=DASH;});
+    }
 
-    var zr=function(id,lo,hi){$(id).innerHTML=bpm(lo)+' – '+bpm(hi)+'<small>'+lo+'–'+hi+'% reserva</small>';};
-    zr('zone1',50,60);zr('zone2',60,70);zr('zone3',70,80);zr('zone4',80,90);zr('zone5',90,100);
+    var parts=[];
+    if(vamOk)parts.push('Test '+dist+' m en '+fmtClock(timeSec));
+    if(hrOk)parts.push('FC máx '+Math.round(hrmax)+' · reposo '+Math.round(hrrest)+' · reserva '+Math.round(hrmax-hrrest)+' lpm');
+    $('echo').textContent=parts.length?parts.join('  ·  '):'Completá tu test de VAM y tu FC para ver los resultados.';
 
-    var rep=function(tid,pid,d){$(tid).textContent=fmtTime(paceAt(num(pid,90))*(d/1000));};
-    rep('t-2000','p-2000',2000);
-    rep('t-1600','p-1600',1600);
-    rep('t-1200','p-1200',1200);
-    rep('t-400','p-400',400);
-    rep('t-200','p-200',200);
-    $('t-1000').textContent=fmtTime(paceAt(num('p-1000a',92)))+' – '+fmtTime(paceAt(num('p-1000b',97)));
-
-    $('stamp').textContent='Generado el '+new Date().toLocaleDateString('es-AR');
+    $('stamp').textContent=(name?name+' · ':'')+'Generado el '+new Date().toLocaleDateString('es-AR');
   }
-  ['dist','min','sec','hrmax','hrrest','p-2000','p-1600','p-1200','p-1000a','p-1000b','p-400','p-200']
+
+  ['nombre','dist','min','sec','hrmax','hrrest','p-2000','p-1600','p-1200','p-1000a','p-1000b','p-400','p-200']
     .forEach(function(id){var el=$(id);if(el)el.addEventListener('input',render);});
   $('pdf').addEventListener('click',function(){window.print();});
+  $('calc').addEventListener('click',function(){render();var h=document.querySelector('.hero');if(h)h.scrollIntoView({behavior:'smooth',block:'start'});});
   render();
 })();
-</script>
-</body>
-</html>
