@@ -83,7 +83,7 @@
 
   <div class="topbar">
     <div class="brand">Áreas funcionales<small>Calculadora VAM</small></div>
-    <button class="pdf-btn" id="pdf" type="button">Descargar PDF</button>
+    <button class="pdf-btn pdf-trigger" id="pdf" type="button" style="display:none">Descargar PDF</button>
   </div>
   <p id="who"></p>
 
@@ -113,6 +113,7 @@
 
   <button class="calc-btn" id="calc" type="button">Calcular VAM</button>
 
+  <div id="resultados">
   <div class="hero">
     <div class="stat"><div class="k">VAM · 100%</div><div class="v" id="h-vam">—</div></div>
     <div class="stat"><div class="k">Velocidad VAM</div><div class="v" id="h-spd">—</div></div>
@@ -189,10 +190,13 @@
     </tbody>
   </table>
   <p class="note">Los % de las pasadas son editables; ajustalos al criterio de tu entrenador.</p>
+  </div>
 
   <footer>
     Método: el ritmo de cada área es el ritmo VAM dividido por el porcentaje. Las zonas de FC usan Karvonen: <b>FC = reposo + %·(máx − reposo)</b>. El 10k es una estimación al 90% de la VAM. <span class="print-only" id="stamp"></span>
   </footer>
+
+  <button class="calc-btn pdf-trigger" id="pdf2" type="button" style="display:none;margin:18px 0 0">Descargar PDF</button>
 
 </div>
 
@@ -259,11 +263,19 @@
     $('echo').textContent=parts.length?parts.join('  ·  '):'Completá tu test de VAM y tu FC para ver los resultados.';
 
     $('stamp').textContent=(name?name+' · ':'')+'Generado el '+new Date().toLocaleDateString('es-AR');
+    return vamOk;
   }
 
-  ['nombre','dist','min','sec','hrmax','hrrest','p-2000','p-1600','p-1200','p-1000a','p-1000b','p-400','p-200']
+  ['nombre','p-2000','p-1600','p-1200','p-1000a','p-1000b','p-400','p-200']
     .forEach(function(id){var el=$(id);if(el)el.addEventListener('input',render);});
-  $('pdf').addEventListener('click',function(){window.print();});
-  $('calc').addEventListener('click',function(){render();var h=document.querySelector('.hero');if(h)h.scrollIntoView({behavior:'smooth',block:'start'});});
+  function setPdf(on){var b=document.querySelectorAll('.pdf-trigger');for(var k=0;k<b.length;k++){b[k].style.display=on?'':'none';}}
+  var pdfs=document.querySelectorAll('.pdf-trigger');
+  for(var j=0;j<pdfs.length;j++){pdfs[j].addEventListener('click',function(){window.print();});}
+  $('calc').addEventListener('click',function(){
+    var ok=render();
+    setPdf(ok);
+    if(ok){var r=$('resultados');if(r&&r.scrollIntoView){r.scrollIntoView({behavior:'smooth',block:'start'});}}
+    else{var dEl=$('dist');if(dEl)dEl.focus();}
+  });
   render();
 })();
