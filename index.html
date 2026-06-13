@@ -6,7 +6,7 @@
 <title>Áreas funcionales · calculadora VAM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap"/></noscript>
 <style>
   :root{
     --ink:#14181f; --paper:#f5f6f8; --surface:#ffffff; --muted:#5a6472;
@@ -202,6 +202,7 @@
 
 <script>
 (function(){
+  var _f=document.createElement('link');_f.rel='stylesheet';_f.href='https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&display=swap';document.head.appendChild(_f);
   var $=function(id){return document.getElementById(id);};
   function val(id){var v=parseFloat($(id).value);return isNaN(v)?NaN:v;}
   function fmtPace(s){s=Math.round(s);var m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0');}
@@ -279,3 +280,6 @@
   });
   render();
 })();
+</script>
+</body>
+</html>
